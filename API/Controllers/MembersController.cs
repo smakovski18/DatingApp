@@ -1,13 +1,13 @@
-using System;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MembersController(AppDbContext context) : ControllerBase
+public class MembersController(AppDbContext context) : BaseApiController
 {
     [HttpGet]
     public ActionResult<IEnumerable<AppUser>> GetMembers()
@@ -17,6 +17,7 @@ public class MembersController(AppDbContext context) : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public ActionResult<AppUser> GetMember(string id)
     {
         var member = context.Users.Find(id);
